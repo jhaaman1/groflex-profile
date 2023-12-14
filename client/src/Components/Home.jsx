@@ -4,7 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import Pagination from "./Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { getData } from "../Redux/App/Action";
+import { deleteData, getData } from "../Redux/App/Action";
 
 const Home = () => {
   const [page, setPage] = useState(1);
@@ -17,9 +17,9 @@ const Home = () => {
 
   const frameworkComponents = {
     imageRenderer: (params) => {
-      console.log("base64 image: ", params);
+      // console.log("base64 image: ", params);
       const base64Image = params?.data?.profilePicture?.docBase;
-      // Check if base64Image is available before rendering the image
+
       if (base64Image) {
         return (
           <img
@@ -29,16 +29,17 @@ const Home = () => {
           />
         );
       } else {
-        return <div>No Image</div>; // or render a placeholder image or message
+        return <div>No Image</div>;
       }
     },
   };
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   const handlePage = (page) => {
     setPage(page);
-  };
-
-  const handleTotalData = (data) => {
-    setTotalData(data);
   };
 
   useEffect(() => {
@@ -52,6 +53,12 @@ const Home = () => {
   }, [dispatch, page]);
 
   console.log("rowdata", rowData);
+
+  const handleDelete = (id) => {
+    console.log('Deleting item with ID:', id);
+    dispatch(deleteData(id));
+  };
+
   const columnDefs = [
     {
       headerName: "Profile",
@@ -62,36 +69,39 @@ const Home = () => {
     { headerName: "Last Name", field: "lastName" },
     { headerName: "Email", field: "email" },
     { headerName: "Gender", field: "gender" },
-    { headerName: "Date of Birth", field: "dob" },
+    {
+      headerName: "Date of Birth",
+      field: "dob",
+      valueFormatter: (params) => formatDate(params.value),
+    },
     { headerName: "Country", field: "country" },
     { headerName: "State", field: "state" },
     { headerName: "City", field: "city" },
     { headerName: "Zip", field: "zip" },
     { headerName: "Interests", field: "interest" },
+    {
+      headerName: "Actions",
+      cellRendererFramework: (params) => (
+        <>
+          <button onClick={() => handleDelete(params?.data?.id)}>Delete</button>
+        </>
+      ),
+    },
   ];
-  //   <img
-  //   src={`data:image/jpeg;base64, ${song.image}`}
-  //   alt={song.songName}
-  //   className="thumbnail-image thumbnail"
-  // />
 
-  // function formatInterests(params) {
-  //   return params.value.join(', ');
-  // }
-
-  // useEffect(() => {
-  //   frameworkComponents.imageRenderer()
-  // })
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-      <AgGridReact
-        columnDefs={columnDefs}
-        rowData={rowData}
-        domLayout="autoHeight"
-        loadingOverlay={isLoding}
-        noRowsOverlay={isError ? "Error loading data" : "No data available"}
-        frameworkComponents={frameworkComponents}
-      />
+    <div className="ag-theme-alpine" style={{ width: "100%" }}>
+      <h1 className="text-center">Registration Data</h1>
+      <div className="m-3">
+        <AgGridReact
+          columnDefs={columnDefs}
+          rowData={rowData}
+          domLayout="autoHeight"
+          loadingOverlay={isLoding}
+          noRowsOverlay={isError ? "Error loading data" : "No data available"}
+          frameworkComponents={frameworkComponents}
+        />
+      </div>
       {rowData.length > 0 && (
         <Pagination
           handlePage={handlePage}
