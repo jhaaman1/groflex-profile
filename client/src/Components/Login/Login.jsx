@@ -30,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(login(data));
     alert("Login successful");
-    navigate("/home");
+    navigate("/");
   };
 
   return (

@@ -50,7 +50,7 @@ const Registration = () => {
     }
   };
   console.log("check", interest);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const requestData = {
@@ -72,8 +72,26 @@ const Registration = () => {
       },
     };
 
-    dispatch(register(requestData));
-    navigate("/login");
+    // dispatch(register(requestData));
+    // navigate("/login");
+
+    try {
+      await dispatch(register(requestData));
+      navigate("/login");
+      console.log("Form submitted successfully");
+    } catch (error) {
+      console.error("Error submitting form:", error.response.data.message);
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        alert(`Error: ${error.response.data.message}`);
+      } else {
+        alert("An error occurred while submitting the form. Please try again.");
+      }
+    }
 
     console.log("Form Data:", requestData);
   };
@@ -93,6 +111,7 @@ const Registration = () => {
             name="firstName"
             value={formData.firstName}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -104,6 +123,7 @@ const Registration = () => {
             className="form-control"
             id="lastName"
             name="lastName"
+            required
             value={formData.lastName}
             onChange={handleInputChange}
           />
@@ -118,6 +138,7 @@ const Registration = () => {
             id="email"
             name="email"
             value={formData.email}
+            required
             onChange={handleInputChange}
           />
         </div>
@@ -162,6 +183,7 @@ const Registration = () => {
             type="date"
             className="form-control"
             id="dob"
+            required
             name="dob"
             value={formData.dob}
             onChange={handleInputChange}
@@ -173,6 +195,7 @@ const Registration = () => {
           </label>
           <select
             className="form-control"
+            required
             id="country"
             name="country"
             value={formData.country}
@@ -190,6 +213,7 @@ const Registration = () => {
           </label>
           <select
             className="form-control"
+            required
             id="state"
             name="state"
             value={formData.state}
@@ -206,6 +230,7 @@ const Registration = () => {
             City <span className="text-danger fw-bolder">*</span>
           </label>
           <input
+            required
             type="text"
             className="form-control"
             id="city"
@@ -221,6 +246,7 @@ const Registration = () => {
           <input
             type="text"
             className="form-control"
+            required
             id="zip"
             name="zip"
             value={formData.zip}
@@ -291,11 +317,10 @@ const Registration = () => {
             </div>
           </div>
         </div>
-          <div>
-            <span className="fw-300">Size should not exceed more than 80kb</span>
-          </div>
+        <div>
+          <span className="fw-300">Size should not exceed more than 80kb</span>
+        </div>
         <div className="mb-3 border">
-         
           <UploadProfile
             setHandleName={setImageName}
             setHandleDatatype={setImageDataType}

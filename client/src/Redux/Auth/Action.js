@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as actionTypes from './ActionType';
-import { useNavigate } from 'react-router-dom';
 
 
 export const loginSuccess = (user) => ({
@@ -18,13 +17,11 @@ export const registrationSuccess = () => ({
 });
 
 export const register = (userData) => async (dispatch) => {
-  // const navigate = useNavigate();
   try {
     const response = await axios.post('http://localhost:8080/api/user-registration', userData);
     console.log('res',userData)
     if (response.data) {
       alert(response.data.message)
-      // navigate('/login')
     }
     if (!response.data) {
       throw new Error(response.data.message || 'Registration failed');
@@ -32,9 +29,7 @@ export const register = (userData) => async (dispatch) => {
 
     dispatch(registrationSuccess());
   } catch (error) {
-    // Log error details for debugging
     console.error('Registration failed:', error);
-    // Dispatch an action to handle the error in the Redux state
     dispatch(setError(error.message));
   }
 };
