@@ -30,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(login(data));
     alert("Login successful");
-    navigate("/");
+    navigate("/home");
   };
 
   return (
@@ -66,12 +66,12 @@ const Login = () => {
         <button type="submit" className="btn btn-primary w-50 submit-btn">
           Submit
         </button>
-        <div className="mt-2 ms-3 ps-5">
+        <div className="mt-2 ms-3 ps-5 text-decoration-none">
           <Link to="/registration">
             <span>Not registered ? SignUp</span>
           </Link>
         </div>
-        <div className="mt-2 ms-5 ps-5" role="button">
+        <div className="mt-2 ms-5 ps-5 text-decoration-none" role="button">
           <Link to="/registration">
             <span>Forgot Password</span>
           </Link>

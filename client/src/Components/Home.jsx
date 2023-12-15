@@ -15,25 +15,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { data, isLoding, isError } = useSelector((state) => state.app);
 
-  const frameworkComponents = {
-    imageRenderer: (params) => {
-      // console.log("base64 image: ", params);
-      const base64Image = params?.data?.profilePicture?.docBase;
-
-      if (base64Image) {
-        return (
-          <img
-            src={`data:image/jpeg;base64, ${base64Image}`}
-            alt="Profile"
-            style={{ width: "50px", height: "50px" }}
-          />
-        );
-      } else {
-        return <div>No Image</div>;
-      }
-    },
-  };
-
+  
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -41,7 +23,7 @@ const Home = () => {
   const handlePage = (page) => {
     setPage(page);
   };
-
+  
   useEffect(() => {
     dispatch(getData(page)).then((data) => {
       if (data) {
@@ -51,13 +33,32 @@ const Home = () => {
       }
     });
   }, [dispatch, page]);
-
+  
   console.log("rowdata", rowData);
-
+  
   const handleDelete = (id) => {
     console.log('Deleting item with ID:', id);
     dispatch(deleteData(id));
   };
+
+    
+    const frameworkComponents = {
+      imageRenderer: (params) => {
+        // console.log("base64 image: ", params);
+        const base64Image = params?.data?.profilePicture?.docBase;
+  
+        if (base64Image) {
+          return (
+            <img
+              src={`data:image/jpeg;base64, ${base64Image}`}
+              alt="Profile"
+              style={{ width: "50px", height: "50px" }}
+            />
+          );
+        } 
+      },
+      // deleteButtonRenderer: deleteButtonRenderer,
+    };
 
   const columnDefs = [
     {
@@ -80,13 +81,13 @@ const Home = () => {
     { headerName: "Zip", field: "zip" },
     { headerName: "Interests", field: "interest" },
     {
-      headerName: "Actions",
+      headerName: "Delete",
+      field: 'Delete',
       cellRendererFramework: (params) => (
-        <>
-          <button onClick={() => handleDelete(params?.data?.id)}>Delete</button>
-        </>
+        <button onClick={() => handleDelete(params?.data?.id)}>`Delete`</button>
       ),
-    },
+    }
+    
   ];
 
   return (

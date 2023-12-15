@@ -6,7 +6,7 @@ import UploadProfile from "../ProfileImage/UploadProfile";
 
 const Registration = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [interest, setInterest] = useState([]);
   const [image, setImage] = useState("");
   const [imageName, setImageName] = useState("No selected File");
@@ -39,8 +39,6 @@ const Registration = () => {
     }));
   };
 
- 
-
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -51,7 +49,7 @@ const Registration = () => {
       );
     }
   };
-  console.log('check', interest)
+  console.log("check", interest);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -75,11 +73,10 @@ const Registration = () => {
     };
 
     dispatch(register(requestData));
-    navigate('/login');
+    navigate("/login");
 
     console.log("Form Data:", requestData);
   };
-
 
   return (
     <div>
@@ -87,7 +84,7 @@ const Registration = () => {
         <h2 className="text-center fst-italic">Registration</h2>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">
-            First Name
+            First Name <span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="text"
@@ -100,7 +97,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="lastName" className="form-label">
-            Last Name
+            Last Name<span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="text"
@@ -113,7 +110,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email
+            Email <span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="text"
@@ -125,7 +122,9 @@ const Registration = () => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Gender</label>
+          <label className="form-label">
+            Gender <span className="text-danger fw-bolder">*</span>
+          </label>
           <div className="form-check">
             <input
               type="radio"
@@ -157,7 +156,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="dob" className="form-label">
-            Date of Birth
+            Date of Birth <span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="date"
@@ -170,7 +169,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="country" className="form-label">
-            Country
+            Country <span className="text-danger fw-bolder">*</span>
           </label>
           <select
             className="form-control"
@@ -187,7 +186,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="state" className="form-label">
-            State
+            State <span className="text-danger fw-bolder">*</span>
           </label>
           <select
             className="form-control"
@@ -204,7 +203,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="city" className="form-label">
-            City
+            City <span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="text"
@@ -217,7 +216,7 @@ const Registration = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="zip" className="form-label">
-            Zip
+            Zip <span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="text"
@@ -229,19 +228,18 @@ const Registration = () => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-check-label">Area of Interest</label>
+          <label className="form-check-label">
+            Area of Interest <span className="text-danger fw-bolder">*</span>
+          </label>
           <div className="">
             <div className="form-check">
-
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="reading"
                 name="interest"
                 value="Reading"
-                // checked={formData.gender === "Male"}
                 checked={interest?.includes("Reading")}
-
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="reading" className="form-check-label">
@@ -249,14 +247,12 @@ const Registration = () => {
               </label>
             </div>
             <div className="form-check">
-
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="writing"
                 name="interest"
                 value="Writing"
-                // checked={formData.interest === "Writing"}
                 checked={interest?.includes("Writing")}
                 onChange={handleCheckboxChange}
               />
@@ -265,7 +261,6 @@ const Registration = () => {
               </label>
             </div>
             <div className="form-check">
-
               <input
                 type="checkbox"
                 className="form-check-input"
@@ -281,14 +276,12 @@ const Registration = () => {
               </label>
             </div>
             <div className="form-check">
-
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="playing"
                 name="interest"
                 value="Playing"
-                // checked={formData.interest === "Playing"}
                 checked={interest?.includes("Playing")}
                 onChange={handleCheckboxChange}
               />
@@ -296,18 +289,13 @@ const Registration = () => {
                 Playing
               </label>
             </div>
-
           </div>
         </div>
+          <div>
+            <span className="fw-300">Size should not exceed more than 80kb</span>
+          </div>
         <div className="mb-3 border">
-
-          {/* <input
-            type="file"
-            className="form-control"
-            id="profilePicture"
-            name="profilePicture"
-            onChange={handleFileChange}
-          /> */}
+         
           <UploadProfile
             setHandleName={setImageName}
             setHandleDatatype={setImageDataType}
@@ -317,18 +305,14 @@ const Registration = () => {
             handleName={imageName}
             handleData={imageData}
             handleDataType={imageDataType}
-            handleAllowedTypes={[
-              "image/jpeg",
-              "image/png",
-              "image/jpg",
-            ]}
+            handleAllowedTypes={["image/jpeg", "image/png", "image/jpg"]}
             handleinput={".input-field"}
             handleClass={"input-field"}
           />
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Password
+            Password <span className="text-danger fw-bolder">*</span>
           </label>
           <input
             type="password"
@@ -339,7 +323,11 @@ const Registration = () => {
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary w-75"
+          style={{ marginLeft: "6rem" }}
+        >
           Submit
         </button>
       </form>

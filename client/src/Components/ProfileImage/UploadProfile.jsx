@@ -89,9 +89,9 @@ UploadProfile = ({
                     )
                 ) : (
                     <>
-                        <div className="profile-img mt-5">
+                        <div className="mt-5 border w-100 m-auto">
                             <p className="mb-2" role="button">
-                                Click here to Upload Thumbnail
+                                Click here to Uplaod Profile Picture
                             </p>
                             <i className="fa-solid fa-user-pen"></i>
                             <input
