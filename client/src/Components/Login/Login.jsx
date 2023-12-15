@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../Redux/Auth/Action";
 import "./Login.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     // const { name, value, type } = e.target;
@@ -30,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(login(data));
     alert("Login successful");
-    navigate('/')
+    navigate("/");
   };
 
   return (
@@ -66,6 +66,16 @@ const Login = () => {
         <button type="submit" className="btn btn-primary w-50 submit-btn">
           Submit
         </button>
+        <div className="mt-2 ms-3 ps-5">
+          <Link to="/registration">
+            <span>Not registered ? SignUp</span>
+          </Link>
+        </div>
+        <div className="mt-2 ms-5 ps-5" role="button">
+          <Link to="/registration">
+            <span>Forgot Password</span>
+          </Link>
+        </div>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
